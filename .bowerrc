@@ -1,3 +1,3 @@
 {
-	"directories": "app/public/bower_components"
+	"directory": "app/public/bower_components"
 }
