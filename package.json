@@ -1,12 +1,19 @@
 {
-  "name": "trekgist",
-  "version": "0.0.0",
+  "name": "chat-socketio",
+  "version": "0.0.0-3",
   "description": "",
-  "main": "web.js",
   "dependencies": {
       "express": "3.0.0",
-      "newrelic": "*"
+      "socket.io": "latest",
+      "underscore": "latest"
   },
   "author": "",
-  "license": "BSD"
+  "license": "BSD",
+  "subdomain": "freechat",
+  "scripts": {
+    "start": "node ./app/scripts/web"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
 }

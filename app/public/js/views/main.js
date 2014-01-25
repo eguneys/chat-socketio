@@ -32,7 +32,7 @@ var LoginView = Backbone.View.extend({
     },
 
     onLogin: function() {
-	this.vent.trigger("login");
+	this.vent.trigger("login", this.$('#nameText').val());
     }
 });
 
@@ -88,6 +88,9 @@ var HomeView = Backbone.View.extend({
 	this.$('#userList').append(template(model.toJSON()));
 
 	this.$('#userCount').html(this.model.get("onlineUsers").length);
+
+	
+	this.$('.nano').nanoScroller();
     },
 
     renderChats: function() {
@@ -101,7 +104,9 @@ var HomeView = Backbone.View.extend({
     renderChat: function(model) {
 	var template = _.template("<a class='list-group-item'><span class='text-info'><%= sender %></span>:<%= message %></a>");
 
-	this.$('#chatList').append(template(model.toJSON()));
+	var element = $(template(model.toJSON()));
+	
+	element.appendTo(this.$('#chatList')).hide().fadeIn().slideDown();
 
 	this.$('.nano').nanoScroller();
 	this.$('.nano').nanoScroller({ scroll: 'bottom' });

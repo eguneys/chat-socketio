@@ -1,6 +1,9 @@
 
+.container {
+    width: 100%;
+    background-image:url('/assets/i.jpg') }
 
-.nano { background: #bba; width: auto; height: 500px; }
+.nano { background-image: url('/assets/f.jpg'); width: auto; height: 500px; }
 .nano .content{ padding: 10px; }
 .nano .pane { background: #888; }
 .nano .slider { background: #111; }

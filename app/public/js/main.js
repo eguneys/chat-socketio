@@ -14,6 +14,9 @@ var MainController = function() {
     self.viewEventBus = _.extend({}, Backbone.Events);
     
     self.init = function() {
+
+	self.chatClient = new ChatClient({ vent: self.appEventBus });
+	self.chatClient.connect();
 	
 	self.containerModel = new ContainerModel({ viewState: new LoginView({vent: self.viewEventBus})});
 	self.containerView = new ContainerView({ model: self.containerModel });
@@ -23,15 +26,12 @@ var MainController = function() {
 
     self.viewEventBus.on("login", function(name) {
 	// socketio login
-
-	self.appEventBus.trigger("loginDone");
-	self.appEventBus.trigger("userJoined", {name: "this"});
+	self.chatClient.login(name);
     });
 
     self.viewEventBus.on("chat", function(chat) {
 	// socketio chat
-
-	self.appEventBus.trigger("chatReceived", {sender: "this", message: chat });
+	self.chatClient.chat(chat);
     });
 
     self.appEventBus.on("loginDone", function() {
@@ -41,17 +41,30 @@ var MainController = function() {
 	self.containerModel.set("viewState", self.homeView);
     });
 
-    self.appEventBus.on("userJoined", function(user) {
-	var onlineUsers = self.homeModel.get('onlineUsers');
+    self.appEventBus.on("usersInfo", function(data) {
+	var onlineUsers = self.homeModel.get("onlineUsers");
 
-	onlineUsers.add(new UserModel(user));
+	var users = _.map(data, function(item) {
+	    return new UserModel({name: item});
+	});
+	
+	onlineUsers.reset(users);
+    });
+
+    self.appEventBus.on("userJoined", function(username) {
+	self.homeModel.addUser(username);
+
+	self.homeModel.addChat({sender: "", message: username + " joined room." });
+    });
+
+    self.appEventBus.on("userLeft", function(username) {
+	self.homeModel.removeUser(username);
+
+	self.homeModel.addChat({sender: "", message: username + " left room." });
     });
 
     self.appEventBus.on("chatReceived", function(chat) {
-	var userChats = self.homeModel.get('userChats');
-
-	userChats.add(new ChatModel(chat));
+	self.homeModel.addChat(chat);
     });
 }
-
 
