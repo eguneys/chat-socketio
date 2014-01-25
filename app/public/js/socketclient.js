@@ -29,11 +29,11 @@ var ChatClient = function(options) {
             self.vent.trigger("loginDone", data);
         });
 
-	socket.on('nameExists', function(data) {
+	socket.on('loginNameExists', function(data) {
 	    self.vent.trigger("loginNameExists", data);
 	});
 
-	socket.on('nameBad', function(data) {
+	socket.on('loginNameBad', function(data) {
 	    self.vent.trigger("loginNameBad", data);
 	});
 	    
