@@ -24,14 +24,23 @@ var LoginView = Backbone.View.extend({
 
     initialize: function(options) {
 	this.vent = options.vent;
+
+	this.listenTo(this.model, "change:error", this.render, this);
     },
 
     render: function() {
-        this.$el.html(this.template());
+        this.$el.html(this.template(this.model.toJSON()));
+
+	if (!this.l) {
+	    this.l = Ladda.create(this.$("#nameBtn").get(0));
+	} else {
+	    this.l.stop();
+	}
         return this;
     },
 
     onLogin: function() {
+	this.l.start();
 	this.vent.trigger("login", this.$('#nameText').val());
     }
 });

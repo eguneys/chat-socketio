@@ -23,7 +23,7 @@ var Server = function(options) {
 	    var nameBad = !username || username.length < 3 || username.length > 10;
 
 	    if (nameBad) {
-		socket.emit('nameBad', username);
+		socket.emit('loginNameBad', username);
 		return;
 	    }
 
@@ -34,7 +34,7 @@ var Server = function(options) {
 
 	    
 	    if (nameExists) {
-		socket.emit("nameExists", username);
+		socket.emit("loginNameExists", username);
 	    } else {
 		var newUser = new User({ user: username, socket: socket });
 		

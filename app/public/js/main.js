@@ -17,8 +17,10 @@ var MainController = function() {
 
 	self.chatClient = new ChatClient({ vent: self.appEventBus });
 	self.chatClient.connect();
+
+	self.loginModel = new LoginModel();
 	
-	self.containerModel = new ContainerModel({ viewState: new LoginView({vent: self.viewEventBus})});
+	self.containerModel = new ContainerModel({ viewState: new LoginView({vent: self.viewEventBus, model: self.loginModel})});
 	self.containerView = new ContainerView({ model: self.containerModel });
 
 	self.containerView.render();
@@ -39,6 +41,14 @@ var MainController = function() {
 	self.homeView  = new HomeView({vent: self.viewEventBus, model: self.homeModel });
 
 	self.containerModel.set("viewState", self.homeView);
+    });
+
+    self.appEventBus.on("loginNameBad", function(name) {
+	self.loginModel.set("error", "Invalid Name");
+    });
+
+    self.appEventBus.on("loginNameExists", function(name) {
+	self.loginModel.set("error", "Name already exists");
     });
 
     self.appEventBus.on("usersInfo", function(data) {

@@ -49,3 +49,9 @@ var HomeModel = Backbone.Model.extend({
     },
 });
 
+
+var LoginModel = Backbone.Model.extend({
+    defaults: {
+	error: ""
+    }
+});
