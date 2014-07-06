@@ -4,7 +4,7 @@ var ChatClient = function(options) {
 
     self.vent = options.vent;
 
-    self.hostname = 'http://192.168.56.101' || 'http://chatfree.herokuapp.com';
+    self.hostname = 'http://' + window.location.host;
 
     self.connect = function() {
         self.socket = io.connect(self.hostname);
