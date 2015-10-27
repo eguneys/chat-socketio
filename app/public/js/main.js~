@@ -1,8 +1,0 @@
-$(document).ready(function() {
-    
-    var containerModel = new ContainerModel({ viewState: new LoginView()});
-    var containerView = new ContainerView({ model: containerModel });
-
-    containerView.render();
-
-});
